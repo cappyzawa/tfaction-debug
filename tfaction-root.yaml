@@ -1,5 +1,6 @@
-draft_pr: true
-plan_workflow_name: plan
+plan_workflow_name: test
+scaffold_working_directory:
+  skip_adding_aqua_packages: true
 target_groups:
 - working_directory: one
   target: one
