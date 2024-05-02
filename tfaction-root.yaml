@@ -1,4 +1,5 @@
-plan_workflow_name: test
+draft_pr: true
+plan_workflow_name: plan
 target_groups:
-- working_directory: one/
-  target: one/
+- working_directory: one
+  target: one
