@@ -1,0 +1,42 @@
+name: Scaffold a working directory
+run-name: Scaffold a working directory (${{inputs.working_dir}})
+on:
+  workflow_dispatch:
+    inputs:
+      working_dir:
+        description: working directory
+        required: true
+env:
+  TFACTION_WORKING_DIR: ${{github.event.inputs.working_dir}}
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+    - uses: aquaproj/aqua-installer@4551ec64e21bf0f557c2525135ff0bd2cba40ec7 # v3.0.0
+      with:
+        aqua_version: v2.27.3
+
+    - uses: suzuki-shunsuke/tfaction/scaffold-working-dir@c56c96f8587d75ec918c79256b1f9c50361287fd # v1.4.0
+
+    - name: Generate token
+      id: generate_token
+      uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
+      with:
+        app_id: ${{ secrets.APP_ID }}
+        private_key: ${{ secrets.APP_PRIVATE_KEY }}
+        # pull_requests:write - Create pull requests
+        # contents:write - Push commits
+        permissions: >-
+          {
+            "pull_requests": "write",
+            "contents": "write"
+          }
+        repositories: >-
+          ["${{github.event.repository.name}}"]
+
+    - uses: suzuki-shunsuke/tfaction/create-scaffold-pr@c56c96f8587d75ec918c79256b1f9c50361287fd # v1.4.0
+      with:
+        github_token: ${{ steps.generate_token.outputs.token }}
