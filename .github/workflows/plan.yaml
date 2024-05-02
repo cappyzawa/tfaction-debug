@@ -1,0 +1,23 @@
+name: plan
+on:
+  pull_request:
+    branches: [main]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TFACTION_IS_APPLY: "false"
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+jobs:
+  list-targets:
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{ steps.list-targets.outputs.targets }}
+    steps:
+    - uses: actions/checkout@v4.1.1
+    - uses: aquaproj/aqua-installer@v3.0.0
+      with:
+        aqua_version: v2.25.1
+    - uses: suzuki-shunsuke/tfaction/list-targets@v1.3.2
+      id: list-targets
