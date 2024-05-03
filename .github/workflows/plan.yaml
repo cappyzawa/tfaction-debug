@@ -19,5 +19,6 @@ jobs:
     - uses: aquaproj/aqua-installer@v3.0.0
       with:
         aqua_version: v2.25.1
-    - uses: suzuki-shunsuke/tfaction/list-targets@v1.3.2
+
+    - uses: cappyzawa/tfaction/list-targets@trim-followup-comment-test
       id: list-targets
